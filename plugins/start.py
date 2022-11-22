@@ -12,13 +12,13 @@ from pyrogram.errors import FloodWait, UserIsBlocked, InputUserDeactivated
 
 from bot import Bot
 from config import ADMINS, FORCE_MSG, START_MSG, CUSTOM_CAPTION, DISABLE_CHANNEL_BUTTON, PROTECT_CONTENT
-from helper_func import subscribed, encode, decode, get_messages
+from helper_func import subscribed, encode, decode, get_messages, subsch, subsgc, subsch2, subgc2
 from database.database import add_user, del_user, full_userbase, present_user
 
 
 
 
-@Bot.on_message(filters.command('start') & filters.private & subscribed)
+@Bot.on_message(filters.command('start') & filters.private & subscribed & subsch & subsgc & subsch2 & subsgc2)
 async def start_command(client: Client, message: Message):
     id = message.from_user.id
     if not await present_user(id):
@@ -88,7 +88,6 @@ async def start_command(client: Client, message: Message):
         reply_markup = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("😊 About Me", callback_data = "about"),
                     InlineKeyboardButton("🔒 Close", callback_data = "close")
                 ]
             ]
@@ -124,7 +123,18 @@ async def not_joined(client: Client, message: Message):
         [
             InlineKeyboardButton(
                 "Join Channel",
-                url = client.invitelink)
+                url = client.invitelink),
+            InlineKeyboardButton(
+                "Join Channel 2",
+                url = client.invitelink3)
+        ],
+        [
+            InlineKeyboardButton(
+                "Join Group",
+                url = client.invitelink2),
+            InlineKeyboardButton(
+                "Join Group 2",
+                url = client.invitelink4)
         ]
     ]
     try:
